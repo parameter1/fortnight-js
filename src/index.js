@@ -4,7 +4,14 @@ import throttle from 'lodash.throttle';
 
 const attr = 'data-fortnight-view';
 
-const getPendingElements = () => document.querySelectorAll(`[${attr}="pending"]`);
+const getPendingElements = () => {
+  const arr = [];
+  const elements = document.querySelectorAll(`[${attr}="pending"]`);
+  for (let i = 0; i < elements.length; i += 1) {
+    arr.push(elements[i]);
+  }
+  return arr;
+};
 
 const loadBeacon = (node) => {
   if (inView(node)) {
