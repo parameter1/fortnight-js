@@ -4,14 +4,7 @@ import throttle from 'lodash.throttle';
 
 const attr = 'data-fortnight-view';
 
-const getPendingElements = () => {
-  const arr = [];
-  const elements = document.querySelectorAll(`[${attr}="pending"]`);
-  for (let i = 0; i < elements.length; i += 1) {
-    arr.push(elements[i]);
-  }
-  return arr;
-};
+const getPendingElements = () => document.querySelectorAll(`[${attr}="pending"]`);
 
 const loadBeacon = (node) => {
   if (inView(node)) {
@@ -23,7 +16,7 @@ const loadBeacon = (node) => {
       const now = Date.now();
       const qs = (a.search) ? `${a.search}&_=${now}` : `?_=${now}`;
       a.search = qs;
-      const img = new Image();
+      const img = document.createElement('img');
       img.src = a.href;
     }
   }
@@ -33,14 +26,22 @@ const handler = throttle(() => {
   /**
    * Find all in-view, pending elements and send
    */
-  getPendingElements().forEach(loadBeacon);
+  const elements = getPendingElements();
+  for (let i = 0; i < elements.length; i += 1) {
+    const element = elements[i];
+    loadBeacon(element);
+  }
 }, 200);
 
 document.addEventListener('DOMContentLoaded', () => {
   /**
    * On initial page load, find all pending elements and load the beacon, if in view.
    */
-  getPendingElements().forEach(loadBeacon);
+  const elements = getPendingElements();
+  for (let i = 0; i < elements.length; i += 1) {
+    const element = elements[i];
+    loadBeacon(element);
+  }
 
   if (window.MutationObserver) {
     /**
@@ -48,14 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
      * If in-view, fire.
      */
     new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
+      for (let n = 0; n < mutations.length; n += 1) {
+        const mutation = mutations[n];
         if (mutation.type === 'childList') {
-          Array.prototype.slice.call(mutation.addedNodes)
-            .filter(node => node.nodeType === Node.ELEMENT_NODE)
-            .filter(node => node.getAttribute(attr) === 'pending')
-            .forEach(loadBeacon);
+          for (let a = 0; a < mutation.addedNodes.length; a += 1) {
+            const node = mutation.addedNodes[a];
+            if (node.nodeType === 1 && node.getAttribute(attr) === 'pending') {
+              loadBeacon(node);
+            }
+          }
         }
-      });
+      }
     }).observe(document.body, { childList: true, subtree: true });
   }
 });
