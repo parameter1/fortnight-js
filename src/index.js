@@ -4,6 +4,17 @@ import throttle from 'lodash.throttle';
 
 const attr = 'data-fortnight-view';
 
+const domReady = (callback) => {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function fn() {
+      document.removeEventListener('DOMContentLoaded', fn);
+      callback();
+    });
+  } else {
+    callback();
+  }
+};
+
 const getPendingElements = () => document.querySelectorAll(`[${attr}="pending"]`);
 
 const loadBeacon = (node) => {
@@ -33,7 +44,7 @@ const handler = throttle(() => {
   }
 }, 200);
 
-document.addEventListener('DOMContentLoaded', () => {
+domReady(() => {
   /**
    * On initial page load, find all pending elements and load the beacon, if in view.
    */
