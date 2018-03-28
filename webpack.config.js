@@ -32,13 +32,9 @@ module.exports = function(env) {
     },
     devServer: {
       port: process.env.SERVER_PORT || 3081,
-      // proxy: {
-      //   '/component': {
-      //     target: serverUrl,
-      //     secure: false,
-      //     changeOrigin: true,
-      //   },
-      // },
+      proxy: {
+        '*': process.env.PROXY || 'http://localhost:8100',
+      },
     },
     module: {
       rules: removeEmpty([
