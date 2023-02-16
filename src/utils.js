@@ -1,4 +1,3 @@
-
 /**
  * Returns a wrapped version of the provided function.
  * If it's not called when the timeout is reached, it will be called regardless.
@@ -27,7 +26,7 @@ export function withTimeout(callback, wait = 2000) {
  * @return {string}
  */
 export function buildQuery(obj) {
-  return Object.keys(obj).filter(k => obj[k]).map((k) => {
+  return Object.keys(obj).filter((k) => obj[k]).map((k) => {
     const value = obj[k];
     const v = typeof value === 'object' ? JSON.stringify(value) : value;
     return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
@@ -82,9 +81,9 @@ export function isTrackable(node, action) {
   return action === value;
 }
 
-export function logSupport(test, message, level = 'warning', extra) {
+export function logSupport(test, message, level = 'warning') {
   if (window.Raven && test) {
-    window.Raven.captureMessage(message, { level, extra });
+    window.Raven.captureMessage(message, { level });
   }
 }
 

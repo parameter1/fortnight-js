@@ -18,14 +18,14 @@ import {
 function linkWillUnloadPage(event, link) {
   return !(
     // Only look a click events that will not open a new window or tab
-    event.type !== 'click' || link.target === '_blank' ||
+    event.type !== 'click' || link.target === '_blank'
     // Cmd+Click (Mac) and Ctrl+Click (Windows) opens a new tab
     // Shift+Click opens a new window in Chrome/Firefox, in Safari it adds to favorites
     // Opt+Click (Mac) is used to download
-    event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+    || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
     // Middle mouse clicks (2) open link in new tab
     // Right clicks (3) on Firefox trigger a click event
-    event.which > 1
+    || event.which > 1
   );
 }
 
