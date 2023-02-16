@@ -146,7 +146,7 @@ export default class ViewListener {
 
   sendEvent(node) {
     const fields = extractFieldsFrom(node);
-    this.tracker.execute('event', 'view', fields, { transport: 'beacon' });
+    this.tracker.execute('event', 'view', fields, {});
   }
 
   destroy() {
