@@ -1,17 +1,17 @@
-import { buildQuery, logSupport, supportsBeaconApi } from '../utils';
-
-const domain = 'https://fortnight.as3.io';
+import { buildQuery } from '../utils';
 
 export default class EventTransport {
   /**
    * Constructor.
    *
-   * @param {?object} options
-   * @param {?string} options.domain The backend domain.
+   * @param {object} options
+   * @param {string} options.domain The backend domain.
+   * @param {import("../logger.js").Logger} options.logger
    */
-  constructor(options = {}) {
-    const defaults = { domain };
-    this.options = Object.assign(defaults, options);
+  constructor({ domain, logger } = {}) {
+    if (!domain) throw new Error('The NativeX tenant domain is required');
+    this.domain = domain.replace(/\/+$/, '');
+    this.logger = logger;
   }
 
   /**
@@ -25,7 +25,6 @@ export default class EventTransport {
    * @param {string} fields.cre The creative ID
    * @param {object} fields.kv The request custom key/values
    * @param {?object} options The event options
-   * @param {?string} options.transport The transport type. Image is the default.
    * @param {?Function} options.callback The callback to fire once complete.
    */
   send(
@@ -37,49 +36,23 @@ export default class EventTransport {
       cre,
       kv,
     } = {},
-    { transport, callback } = {},
+    { callback } = {},
   ) {
     const act = String(action).trim().toLowerCase();
     if (!act) {
-      logSupport(true, 'No event action was provided. Preventing send.', 'warning');
+      this.logger.warn('No event action was provided. Preventing send.');
       return;
     }
-    const _ = (new Date()).getTime();
     const params = {
       pid,
       cid,
       uuid,
       cre,
       kv,
-      _,
+      _: Date.now(),
     };
 
-    if (transport === 'beacon') {
-      this.sendBeacon(act, params, callback);
-    } else {
-      this.sendImage(act, params, callback);
-    }
-  }
-
-  /**
-   * Sends the event an `img` element.
-   *
-   * @private
-   * @param {string} act
-   * @param {object} params
-   * @param {?Function} callback
-   */
-  sendImage(act, params, callback) {
-    const url = this.buildEventUrl(act, params);
-    const img = document.createElement('img');
-    if (typeof callback === 'function') {
-      img.onload = () => callback(act, params);
-      img.onerror = () => {
-        logSupport(true, 'The image beacon failed to load.', 'warning', { act, params });
-        callback(act, params);
-      };
-    }
-    img.src = url;
+    this.sendBeacon(act, params, callback);
   }
 
   /**
@@ -92,19 +65,9 @@ export default class EventTransport {
    * @param {?Function} callback
    */
   sendBeacon(act, params, callback) {
-    logSupport(!window.navigator, 'The window.navigator object is not defined.', 'warning');
-    if (!supportsBeaconApi()) {
-      logSupport(true, 'Falling back to image transport. Beacon API unavailable.', 'info', { act, params });
-      this.sendImage(act, params, callback);
-    } else {
-      const url = this.buildEventUrl(act, params);
-      const queued = navigator.sendBeacon(url);
-      if (queued) {
-        if (typeof callback === 'function') callback(act, params);
-      } else {
-        this.sendImage(act, params, callback);
-      }
-    }
+    const url = this.buildEventUrl(act, params);
+    const queued = navigator.sendBeacon(url);
+    if (queued && typeof callback === 'function') callback(act, params);
   }
 
   /**
@@ -118,16 +81,6 @@ export default class EventTransport {
     const query = buildQuery(params);
     const endpoint = `/e/${act}.gif?${query}`;
     return this.createUrl(endpoint);
-  }
-
-  /**
-   * Configures the domain name for sending events.
-   *
-   * @return string
-   */
-  get domain() {
-    if (!this.options.domain) return domain;
-    return `${this.options.domain.replace(/\/+$/, '')}`;
   }
 
   /**

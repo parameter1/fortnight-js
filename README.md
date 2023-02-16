@@ -7,36 +7,14 @@ Include the following Javascript before the closing `<head>` tag on all pages yo
 <html>
   <head>
     <script>
-      // Load the library (async), but add a command queue so calls to `fortnight()` are immediate.
-      (function (i, s, o, g, r, a, m) {
-        i['FortnightObject'] = r; i[r] = i[r] || function () {
-          (i[r].q = i[r].q || []).push(arguments)
-        }, a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; a.crossOrigin = 'anonymous'; m.parentNode.insertBefore(a, m)
-      })(window, document, 'script', 'https://fortnight.as3.io/lib/fortnight.min.js', 'fortnight');
-
-      // Now init the tracker.
-      fortnight('init');
-    </script>
-  </head>
-</html>
-```
-If you're using a custom domain name (CNAME), you must specify it as both the library source and the tracker domain. For example, if your custom domain is `https://your-host.your-domain.com` you would include and initialize as follows:
-```html
-<html>
-  <head>
-    <script>
-      (function (i, s, o, g, r, a, m) {
-        i['FortnightObject'] = r; i[r] = i[r] || function () {
-          (i[r].q = i[r].q || []).push(arguments)
-        }, a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; a.crossOrigin = 'anonymous'; m.parentNode.insertBefore(a, m)
-      })(window, document, 'script', 'https://your-host.your-domain.com/lib/fortnight.min.js', 'fortnight');
-
-      fortnight('init', {
-        domain: 'https://your-host.your-domain.com'
-      });
-    </script>
+      (function (i,r) {
+        window.FortnightObject = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments);
+          }
+        })(window, 'fortnight');
+      </script>
+      <!-- load the module -->
+      <script type="module" src="https://cdn.parameter1.com/native-x/v1.0.0/lib.min.js" async defer></script>
   </head>
 </html>
 ```
@@ -65,7 +43,6 @@ Load, view, and click events will be handled automatically by the content delive
     pid: '5aa157594795e6000122dbe7',
     // The campaign id (if served and not a fallback).
     cid: '5ab00ccbfd9ea400012760d8'
-  }, { transport: 'beacon' });
+  });
 </script>
 ```
-

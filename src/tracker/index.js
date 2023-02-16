@@ -1,7 +1,7 @@
 import LinkListener from './link-listener';
 import EventTransport from './event-transport';
 import ViewListener from './view-listener';
-import { version } from '../../package.json';
+import { Logger } from '../logger';
 
 const listeners = [];
 
@@ -13,16 +13,19 @@ export default class Tracker {
    * @param {boolean} [options.trackLinks=true] Whether to track links.
    */
   constructor(options = {}) {
-    this.VERSION = version;
     const defaults = {
       trackLinks: true,
       debug: false,
       onLinkTrack: undefined,
     };
-    const opts = Object.assign(defaults, options);
+    const opts = { ...defaults, ...options };
     this.opts = opts;
+    this.logger = new Logger({ enabled: opts.debug });
 
-    const transport = new EventTransport({ domain: opts.domain });
+    const transport = new EventTransport({
+      domain: opts.domain,
+      logger: this.logger,
+    });
     this.commands = {
       event: transport.send.bind(transport),
     };

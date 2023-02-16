@@ -2,11 +2,7 @@ import {
   domReady,
   extractFieldsFrom,
   isTrackable,
-  logSupport,
 } from '../utils';
-
-logSupport(!window.IntersectionObserver, 'IntersectionObserver is not supported, polyfilling.', 'info');
-require('intersection-observer');
 
 /**
  * Detects whether or not an intersection record is visible based on the threshold.
@@ -28,9 +24,6 @@ function isVisible(threshold, record) {
  */
 export default class ViewListener {
   constructor(tracker, options = {}) {
-    logSupport(!window.IntersectionObserver, 'IntersectionObserver polyfilling failed.');
-    logSupport(!window.MutationObserver, 'MutationObserver is not supported, however initial elements will be fired.', 'info');
-
     // Disable if the browser does not support the required features.
     // Do not disable if mutations are not supported - just don't use it.
     if (!window.IntersectionObserver) return;
@@ -153,7 +146,7 @@ export default class ViewListener {
 
   sendEvent(node) {
     const fields = extractFieldsFrom(node);
-    this.tracker.execute('event', 'view', fields, { transport: 'beacon' });
+    this.tracker.execute('event', 'view', fields, {});
   }
 
   destroy() {

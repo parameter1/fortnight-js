@@ -3,18 +3,24 @@
   <head>
     <title>FortnightJS Examples</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- create command queue -->
     <script>
-      (function (i, s, o, g, r, a, m) {
+      (function (i,r) {
         i['FortnightObject'] = r; i[r] = i[r] || function () {
-          (i[r].q = i[r].q || []).push(arguments)
-        }, a = s.createElement(o),
-          m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-      })(window, document, 'script', 'fortnight.min.js', 'fortnight');
+          (i[r].q = i[r].q || []).push(arguments);
+        }
+      })(window, 'fortnight');
+    </script>
+    <!-- load the module -->
+    <script type="module" src="./src/index.js" async defer></script>
+
+    <script>
       fortnight('init', {
-        domain: '/',
+        domain: 'https://indm.native-x.parameter1.com',
         debug: true,
         onLinkTrack: (...args) => {
-          // console.info('onLinkTrack', ...args)
+          console.info('onLinkTrack', ...args)
         },
       });
       fortnight('event', 'load', { pid: '1234' }, {
@@ -24,27 +30,25 @@
       });
 
       fortnight('event', 'load', {"uuid":"48289cf0-dcf7-4882-9ba6-66d2c45d799b","pid":"5aa1552b4795e6000122d9f5","kv":{"chan_id":"1234"}}, {
-        transport: 'beacon',
         callback: (...args) => {
           console.info('event callback with KVs', ...args);
         }
       });
 
-      const loadMore = (withBeacon) => {
+      const loadMore = () => {
         const now = Date.now();
         const p = document.createElement('p');
         p.textContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id facilisis urna.';
 
-        if (withBeacon) {
-          p.setAttribute('data-fortnight-fields', encodeURIComponent(JSON.stringify({ uuid: '1234', pid: '789' })));
-          p.setAttribute('data-fortnight-action', 'view');
-          const script = document.createElement('script');
-          script.textContent = "fortnight('event', 'load', { pid: '6789' }, { transport: 'beacon' });"
-          p.appendChild(script);
-        }
+        p.setAttribute('data-fortnight-fields', encodeURIComponent(JSON.stringify({ uuid: '1234', pid: '789' })));
+        p.setAttribute('data-fortnight-action', 'view');
+        const script = document.createElement('script');
+        script.textContent = "fortnight('event', 'load', { pid: '6789' }, {});"
+        p.appendChild(script);
 
         document.getElementById('list').appendChild(p);
       };
+
       const addLink = () => {
         const now = Date.now();
         const rand = Math.random();

@@ -1,25 +1,3 @@
-
-/**
- * Returns a wrapped version of the provided function.
- * If it's not called when the timeout is reached, it will be called regardless.
- * The wrapped function will also be prevented from being called more than once.
- *
- * @param {Function} callback
- * @param {number} wait
- * @return {Function}
- */
-export function withTimeout(callback, wait = 2000) {
-  let wasCalled = false;
-  const fn = (...args) => {
-    if (!wasCalled) {
-      wasCalled = true;
-      callback(...args);
-    }
-  };
-  setTimeout(fn, wait);
-  return fn;
-}
-
 /**
  * Builds a simply query string from object.
  *
@@ -27,7 +5,7 @@ export function withTimeout(callback, wait = 2000) {
  * @return {string}
  */
 export function buildQuery(obj) {
-  return Object.keys(obj).filter(k => obj[k]).map((k) => {
+  return Object.keys(obj).filter((k) => obj[k]).map((k) => {
     const value = obj[k];
     const v = typeof value === 'object' ? JSON.stringify(value) : value;
     return `${encodeURIComponent(k)}=${encodeURIComponent(v)}`;
@@ -80,19 +58,4 @@ export function isTrackable(node, action) {
   if (node.nodeType !== 1) return false;
   const value = node.getAttribute('data-fortnight-action');
   return action === value;
-}
-
-export function logSupport(test, message, level = 'warning', extra) {
-  if (window.Raven && test) {
-    window.Raven.captureMessage(message, { level, extra });
-  }
-}
-
-/**
- * Determines if the browser supports the Beacon API.
- *
- * @return {boolean}
- */
-export function supportsBeaconApi() {
-  return window.navigator && typeof window.navigator.sendBeacon === 'function';
 }
