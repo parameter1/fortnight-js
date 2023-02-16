@@ -8,7 +8,7 @@ Include the following Javascript before the closing `<head>` tag on all pages yo
   <head>
     <script>
       (function (i,r) {
-        window.FortnightObject = r; i[r] = i[r] || function () {
+        i['FortnightObject'] = r; i[r] = i[r] || function () {
           (i[r].q = i[r].q || []).push(arguments);
           }
         })(window, 'fortnight');
