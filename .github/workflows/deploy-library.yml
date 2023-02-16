@@ -3,7 +3,7 @@ name: Deploy library
 on:
   push:
     tags: [ v* ]
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   vars:
