@@ -1,7 +1,6 @@
 import LinkListener from './link-listener';
 import EventTransport from './event-transport';
 import ViewListener from './view-listener';
-import { version } from '../../package.json';
 
 const listeners = [];
 
@@ -13,7 +12,6 @@ export default class Tracker {
    * @param {boolean} [options.trackLinks=true] Whether to track links.
    */
   constructor(options = {}) {
-    this.VERSION = version;
     const defaults = {
       trackLinks: true,
       debug: false,
