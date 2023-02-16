@@ -1,6 +1,6 @@
 {
   "name": "fortnight-js",
-  "version": "1.0.0-rc.4.3",
+  "version": "1.0.0",
   "type": "module",
   "description": "NativeX ad delivery library",
   "main": "src/index.js",
