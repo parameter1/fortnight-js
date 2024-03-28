@@ -61,7 +61,7 @@ export default class EventTransport {
     };
 
     this.sendBeacon(act, params, callback);
-    if (!mindful?.cre) return;
+    if (!mindful || !mindful.cre) return;
     const event = {
       action,
       category: 'Native Website Creative',
