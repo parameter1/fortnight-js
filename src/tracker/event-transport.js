@@ -16,13 +16,11 @@ export default class EventTransport {
 
   /**
    * Sends an event to the backend.
-   * 
    * @typedef MindfulFields
    * @prop {string} [cre]
    * @prop {string} [li]
    * @prop {string} ns
    * @prop {string} unit
-   * 
    *
    * @param {string} action The event action, e.g. `view`, `load` or `click`
    * @param {object} fields The event fields

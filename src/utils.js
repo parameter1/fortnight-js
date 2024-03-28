@@ -39,7 +39,7 @@ export function domReady(callback) {
  */
 export function extractFieldsFrom(node, options) {
   if (node.nodeType !== 1) return {};
-  const key = options?.mindful ? 'data-mindful-fields' : 'data-fortnight-fields';
+  const key = options && options.mindful ? 'data-mindful-fields' : 'data-fortnight-fields';
   const data = node.getAttribute(key);
   if (!data) return {};
   try {
