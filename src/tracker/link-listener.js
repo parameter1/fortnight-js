@@ -57,6 +57,7 @@ export default class LinkListener {
 
     const eventOpts = {
       callback: this.opts.callback,
+      mindful: extractFieldsFrom(link, { mindful: true }),
     };
 
     // The Beacon API will now be used exclusively, so we no longer need to check

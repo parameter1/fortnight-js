@@ -16,6 +16,11 @@
     <script type="module" src="./src/index.js" async defer></script>
 
     <script>
+      // fake p1events function
+      window.p1events = (command, data) => {
+        console.log('P1 events simulator', { command, data });
+      };
+
       fortnight('init', {
         domain: 'https://indm.native-x.parameter1.com',
         debug: true,
@@ -92,6 +97,14 @@
           <p>Aenean ut leo nec lorem elementum suscipit ut nec lorem. Aenean mattis nibh lectus, at facilisis ex tempor et. Sed dolor ex, consectetur ut turpis vehicula, mattis aliquam tortor. Sed consectetur orci risus, hendrerit bibendum felis iaculis hendrerit. Quisque ullamcorper eleifend magna, vitae congue dolor. Donec suscipit justo quis sollicitudin facilisis. Curabitur eu dapibus nunc, in semper dolor. Ut ut placerat leo. Vestibulum blandit, augue vitae placerat tristique, diam erat auctor massa, quis faucibus ipsum libero vel mauris.</p>
           <p data-fortnight-action="view" data-fortnight-fields="%7B%22pid%22%3A%225ab2b3c4b0997c0001c0c716%22%2C%22uuid%22%3A%22db1a4977-6ef8-4039-959d-99f95b839eae%22%7D"><strong>In</strong> vehicula dui sed eros tempus, et iaculis arcu mattis. Aenean quam enim, porta at commodo eget, pellentesque a ex. Vestibulum dapibus suscipit nibh, quis volutpat ex mollis at. Sed facilisis vel nisl sit amet volutpat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi accumsan, velit sagittis faucibus hendrerit, leo lectus cursus nibh, eu rutrum nunc mi non arcu. Aenean enim nisi, auctor vitae ante sit amet, luctus fringilla ligula. Etiam ac tempor turpis. Morbi iaculis sagittis nisi et pulvinar. Nam sodales erat nec nunc eleifend sollicitudin. Mauris iaculis tortor at velit tincidunt vehicula quis quis magna.</p>
           <p>Nam in rutrum dolor, non egestas odio. Nullam eu mi elit. Cras porta imperdiet odio, quis pharetra enim lobortis eu. Aliquam id tempor tellus. Ut non tempor lectus. Ut condimentum risus at neque interdum varius. In at placerat ipsum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin pretium eu tortor a dapibus. Ut ut consectetur lacus, at tincidunt massa. Pellentesque lectus libero, eleifend eu feugiat lacinia, venenatis et sem. Nulla eget turpis in libero vestibulum fringilla. Ut eleifend velit velit, ut imperdiet nunc efficitur sit amet. Vivamus massa lacus, mollis et quam nec, consequat pharetra dolor. Vestibulum ac tellus eu urna posuere faucibus ac eget risus. Duis fermentum turpis a erat aliquam dignissim.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h3>Mindful</h3>
+          <p data-mindful-action="view" data-mindful-fields="%7B%22cre%22%3A%2265ef37a27190d91f12c64f94%22%2C%22li%22%3A%2265ef37a07190d91f12c64f7f%22%2C%22ns%22%3A%22rr%2Fdefault%22%2C%22unit%22%3A%226549176d2e4a2921881e186e%22%7D">
+            Hello <a href="https://google.com" target="_blank" data-mindful-action="click" data-mindful-fields="%7B%22cre%22%3A%2265ef37a27190d91f12c64f94%22%2C%22li%22%3A%2265ef37a07190d91f12c64f7f%22%2C%22ns%22%3A%22rr%2Fdefault%22%2C%22unit%22%3A%226549176d2e4a2921881e186e%22%7D">world</a>
+          </p>
         </div>
       </div>
       <div class="row">
