@@ -52,7 +52,10 @@ export default class ViewListener {
   }
 
   static getElements() {
-    return document.querySelectorAll('[data-fortnight-action="view"]');
+    return [
+      ...document.querySelectorAll('[data-fortnight-action="view"]'),
+      ...document.querySelectorAll('[data-mindful-action="view"]'),
+    ];
   }
 
   observeElements() {
@@ -146,7 +149,9 @@ export default class ViewListener {
 
   sendEvent(node) {
     const fields = extractFieldsFrom(node);
-    this.tracker.execute('event', 'view', fields, {});
+    this.tracker.execute('event', 'view', fields, {
+      mindful: extractFieldsFrom(node, { mindful: true }),
+    });
   }
 
   destroy() {

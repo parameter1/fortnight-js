@@ -16,6 +16,13 @@ export default class EventTransport {
 
   /**
    * Sends an event to the backend.
+   * 
+   * @typedef MindfulFields
+   * @prop {string} [cre]
+   * @prop {string} [li]
+   * @prop {string} ns
+   * @prop {string} unit
+   * 
    *
    * @param {string} action The event action, e.g. `view`, `load` or `click`
    * @param {object} fields The event fields
@@ -24,8 +31,9 @@ export default class EventTransport {
    * @param {string} fields.uuid The unique request UUID
    * @param {string} fields.cre The creative ID
    * @param {object} fields.kv The request custom key/values
-   * @param {?object} options The event options
+   * @param {object} options The event options
    * @param {?Function} options.callback The callback to fire once complete.
+   * @param {MindfulFields} [options.mindful]
    */
   send(
     action,
@@ -36,7 +44,7 @@ export default class EventTransport {
       cre,
       kv,
     } = {},
-    { callback } = {},
+    { callback, mindful } = {},
   ) {
     const act = String(action).trim().toLowerCase();
     if (!act) {
@@ -53,6 +61,17 @@ export default class EventTransport {
     };
 
     this.sendBeacon(act, params, callback);
+    if (!mindful?.cre) return;
+    const event = {
+      action,
+      category: 'Native Website Creative',
+      entity: {
+        id: mindful.cre,
+        ns: `mindful.${mindful.ns}.advertising-creative`,
+      },
+    };
+    if (!window.p1events) return;
+    window.p1events('track', event);
   }
 
   /**

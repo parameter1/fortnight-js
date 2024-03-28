@@ -32,13 +32,15 @@ export function domReady(callback) {
 /**
  * Extracts an event fields object from a node.
  *
- * @param {DOMNode} node
- * @param {string} attrName
+ * @param {Node} node
+ * @param {object} options
+ * @param {boolean} [options.mindful]
  * @return {object}
  */
-export function extractFieldsFrom(node) {
+export function extractFieldsFrom(node, options) {
   if (node.nodeType !== 1) return {};
-  const data = node.getAttribute('data-fortnight-fields');
+  const key = options?.mindful ? 'data-mindful-fields' : 'data-fortnight-fields';
+  const data = node.getAttribute(key);
   if (!data) return {};
   try {
     return JSON.parse(decodeURIComponent(data)) || {};
@@ -50,12 +52,12 @@ export function extractFieldsFrom(node) {
 /**
  * Determines if a node is trackable for the provided action.
  *
- * @param {DOMNode} node
+ * @param {Node} node
  * @param {string} action
  * @return {boolean}
  */
 export function isTrackable(node, action) {
   if (node.nodeType !== 1) return false;
-  const value = node.getAttribute('data-fortnight-action');
+  const value = node.getAttribute('data-fortnight-action') || node.getAttribute('data-mindful-action');
   return action === value;
 }
