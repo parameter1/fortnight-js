@@ -11,15 +11,28 @@
           (i[r].q = i[r].q || []).push(arguments);
         }
       })(window, 'fortnight');
+
+      (function() {
+        var i = window,
+          r = 'p1events';
+        i['__p1e'] = r;
+        i[r] = i[r] || function() {
+          (i[r].q = i[r].q || []).push(arguments);
+        };
+      })();
     </script>
     <!-- load the module -->
     <script type="module" src="./src/index.js" async defer></script>
+    <script type="module" src="https://cdn.parameter1.com/p1-events/v1.3.3/lib.min.js" async defer></script>
 
     <script>
-      // fake p1events function
-      window.p1events = (command, data) => {
-        console.log('P1 events simulator', { command, data });
-      };
+      p1events('init', {
+        tenant: 'randallreilly',
+        realm: '5fce561dd28860bc33b823ce',
+        env: 'development',
+        debug: true,
+        uri: 'https://db0y8smio0.execute-api.us-east-2.amazonaws.com/default/p1-website-events-enqueue',
+      });
 
       fortnight('init', {
         domain: 'https://indm.native-x.parameter1.com',
@@ -102,8 +115,8 @@
       <div class="row">
         <div class="col">
           <h3>Mindful</h3>
-          <p data-mindful-action="view" data-mindful-fields="%7B%22cre%22%3A%2265ef37a27190d91f12c64f94%22%2C%22li%22%3A%2265ef37a07190d91f12c64f7f%22%2C%22ns%22%3A%22rr%2Fdefault%22%2C%22unit%22%3A%226549176d2e4a2921881e186e%22%7D">
-            Hello <a href="https://google.com" target="_blank" data-mindful-action="click" data-mindful-fields="%7B%22cre%22%3A%2265ef37a27190d91f12c64f94%22%2C%22li%22%3A%2265ef37a07190d91f12c64f7f%22%2C%22ns%22%3A%22rr%2Fdefault%22%2C%22unit%22%3A%226549176d2e4a2921881e186e%22%7D">world</a>
+          <p data-mindful-action="view" data-mindful-fields="%7B%22chan%22%3A%22654917592e4a2921881e0861%22%2C%22cre%22%3A%2265ef37a27190d91f12c64f94%22%2C%22li%22%3A%2265ef37a07190d91f12c64f7f%22%2C%22ns%22%3A%22rr%2Fdefault%22%2C%22unit%22%3A%226549176d2e4a2921881e186e%22%7D">
+            Hello <a href="https://google.com" target="_blank" data-mindful-action="click" data-mindful-fields="%7B%22chan%22%3A%22654917592e4a2921881e0861%22%2C%22cre%22%3A%2265ef37a27190d91f12c64f94%22%2C%22li%22%3A%2265ef37a07190d91f12c64f7f%22%2C%22ns%22%3A%22rr%2Fdefault%22%2C%22unit%22%3A%226549176d2e4a2921881e186e%22%7D">world</a>
           </p>
         </div>
       </div>

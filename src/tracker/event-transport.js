@@ -59,17 +59,40 @@ export default class EventTransport {
     };
 
     this.sendBeacon(act, params, callback);
-    if (!mindful || !mindful.cre) return;
-    const event = {
-      action,
-      category: 'Native Website Creative',
-      entity: {
-        id: mindful.cre,
-        ns: `mindful.${mindful.ns}.advertising-creative`,
-      },
-    };
+    if (!mindful || !mindful.ns) return;
+    const { ns } = mindful;
+    const events = [];
+    if (mindful.cre && mindful.unit) {
+      events.push({
+        action,
+        category: 'Native Website Creative',
+        context: {
+          id: mindful.unit,
+          ns: `mindful.${ns}.advertising-unit`,
+        },
+        entity: {
+          id: mindful.cre,
+          ns: `mindful.${ns}.advertising-creative`,
+        },
+      });
+    }
+    if (mindful.chan && mindful.unit) {
+      events.push({
+        action,
+        category: 'Native Website Ad Unit',
+        context: {
+          id: mindful.chan,
+          ns: `mindful.${ns}.advertising-website-channel`,
+        },
+        entity: {
+          id: mindful.unit,
+          ns: `mindful.${ns}.advertising-unit`,
+        },
+        props: { servedAd: Boolean(mindful.cre) },
+      });
+    }
     if (!window.p1events) return;
-    window.p1events('track', event);
+    window.p1events('track', events);
   }
 
   /**
